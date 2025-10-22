@@ -1,0 +1,36 @@
+name: confly_flutter_example
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.0-227.0.dev
+
+dependencies:
+  flutter:
+    sdk: flutter
+  confly_annotation:
+    path: ../../../confly_annotation
+
+dev_dependencies:
+  confly:
+    path: ../../
+  build_runner:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+dependency_overrides:
+  confly:
+    path: ../../
+  confly_annotation:
+    path: ../../../confly_annotation
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/config/development.yaml
+    - assets/config/staging.yaml
+    - assets/config/production.yaml
+    - assets/config/test.yaml
+    - assets/config/passwords.yaml

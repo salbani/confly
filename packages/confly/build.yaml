@@ -1,0 +1,21 @@
+targets:
+  $default:
+    builders:
+      source_gen|combining_builder:
+        options:
+          ignore_for_file:
+            - "type=lint"
+      confly:
+        enabled: true
+        generate_for:
+          - test/*
+          - test/**/*
+
+builders:
+  confly:
+    import: "package:confly/builder.dart"
+    builder_factories: ["conflyGenerator"]
+    build_extensions: { ".dart": [".g.part"] }
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]

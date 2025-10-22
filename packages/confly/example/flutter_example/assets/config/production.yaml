@@ -1,0 +1,7 @@
+subConfig:
+  testString: 'production'
+  testBool: true
+  testInt: 123
+  testDouble: 12.3
+  testConvert: 'abc'
+  testFromEnvironment: 'this is from the yaml'

@@ -1,0 +1,5 @@
+testString: 'development'
+testBoolTrue: true
+testBoolFalse: false
+testInt: 123
+testDouble: 12.3

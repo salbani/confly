@@ -1,0 +1,63 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "confly",
+            "cwd": "packages/confly",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "confly_annotation",
+            "cwd": "packages/confly_annotation",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "dart_example",
+            "cwd": "packages/confly/examples/dart_example",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--define",
+                "ENV_FIELD=\"this is from the env\"",
+            ]
+        },
+        {
+            "name": "flutter_example",
+            "cwd": "packages/confly/examples/flutter_example",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define",
+                "ENV_FIELD=this is from the env",
+            ]
+        },
+        {
+            "name": "flutter_example (staging)",
+            "cwd": "packages/confly/examples/flutter_example",
+            "request": "launch",
+            "type": "dart",
+            "toolArgs": [
+                "--dart-define",
+                "ENV_FIELD=this is from the env",
+                "--dart-define",
+                "RUN_MODE=staging",
+            ]
+        },
+        {
+            "name": "flutter_example (release mode)",
+            "cwd": "packages/confly/examples/flutter_example",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "args": [
+                "--dart-define",
+                "ENV_FIELD=this is from the env",
+            ]
+        }
+    ]
+}

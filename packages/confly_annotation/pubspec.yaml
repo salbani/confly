@@ -1,0 +1,16 @@
+name: confly_annotation
+description: >
+  Annotations and some helpers for the confly packages.
+  This package does nothing without confly too.
+version: 1.0.1
+repository: https://github.com/salbani/confly
+issue_tracker: https://github.com/salbani/confly/issues
+
+environment:
+  sdk: ">=3.8.0 <4.0.0"
+
+dev_dependencies:
+  lints: ^6.0.0
+dependencies:
+  path: ^1.9.1
+  yaml: ^3.1.3
