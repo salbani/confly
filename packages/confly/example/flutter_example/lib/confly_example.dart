@@ -47,5 +47,6 @@ class SubConfig {
 
 void main(List<String> args) async {
   final config = await ExampleConfig.load();
+  // ignore: avoid_print
   print(config.toString());
 }

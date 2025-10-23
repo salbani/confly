@@ -1,9 +1,10 @@
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
-import 'package:confly/src/confly_generator_helper.dart';
 import 'package:confly_annotation/confly_annotation.dart';
 import 'package:source_gen/source_gen.dart';
+
+import 'confly_generator_helper.dart';
 
 /// Checks if you are awesome. Spoiler: you are.
 class ConflyConfigGenerator extends GeneratorForAnnotation<ConflyConfig> {
@@ -15,15 +16,15 @@ class ConflyConfigGenerator extends GeneratorForAnnotation<ConflyConfig> {
 
   @override
   String generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) {
     final buffer = StringBuffer();
 
-    if (element is! ClassElement) {
+    if (element is! ClassElement2) {
       throw InvalidGenerationSourceError(
-        'Generator cannot target `${element.name}`. '
+        'Generator cannot target `${element.name3}`. '
         'Annotation can only be applied to classes.',
         element: element,
       );
@@ -35,12 +36,12 @@ class ConflyConfigGenerator extends GeneratorForAnnotation<ConflyConfig> {
     return buffer.toString();
   }
 
-  Class generateConflyConfig(ClassElement element) {
+  Class generateConflyConfig(ClassElement2 element) {
     final codeBuffer = StringBuffer();
 
-    final constructor = element.constructors.firstWhere((c) => c.name == '_');
+    final constructor = element.constructors2.firstWhere((c) => c.name3 == '_');
     final parameters = constructor.formalParameters
-        .whereType<FieldFormalParameterElement>()
+        .whereType<FieldFormalParameterElement2>()
         .toList();
 
     for (final parameter in parameters) {
@@ -52,15 +53,13 @@ class ConflyConfigGenerator extends GeneratorForAnnotation<ConflyConfig> {
     codeBuffer.writeln();
 
     codeBuffer.writeln('''
-    return Loaded${element.name}._(${[
-      for (final field in parameters) "${field.name}: ${field.name}"
-    ].join(', ')});
+    return Loaded${element.name3}._(${[for (final field in parameters) "${field.name3}: ${field.name3}"].join(', ')});
     ''');
 
     return Class(
       (builder) => builder
-        ..name = 'Loaded${element.name}'
-        ..extend = refer(element.name!)
+        ..name = 'Loaded${element.name3}'
+        ..extend = refer(element.name3!)
         ..fields.add(
           ConflyGeneratorHelper.generateEnvMapField(element, parameters),
         )
@@ -73,11 +72,13 @@ class ConflyConfigGenerator extends GeneratorForAnnotation<ConflyConfig> {
               ..name = '_'
               ..optionalParameters.addAll([
                 for (final field in parameters)
-                  Parameter((pb) => pb
-                    ..name = field.name!
-                    ..named = true
-                    ..toSuper = true
-                    ..required = true),
+                  Parameter(
+                    (pb) => pb
+                      ..name = field.name3!
+                      ..named = true
+                      ..toSuper = true
+                      ..required = true,
+                  ),
               ])
               ..initializers.add(Code('super._()')),
           ),
@@ -101,7 +102,7 @@ class ConflyConfigGenerator extends GeneratorForAnnotation<ConflyConfig> {
                 ),
               ])
               ..body = Code(codeBuffer.toString()),
-          )
+          ),
         ]),
     );
   }

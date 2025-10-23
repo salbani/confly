@@ -1,6 +1,7 @@
-import 'package:confly_annotation/src/run_mode.dart';
 import 'package:path/path.dart';
 import 'package:yaml/yaml.dart' as yaml;
+
+import 'run_mode.dart';
 
 typedef Convert<T> = T Function(String value);
 

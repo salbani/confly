@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:collection/collection.dart';
@@ -18,16 +18,16 @@ class ConflyRootGenerator extends GeneratorForAnnotation<ConflyRoot> {
 
   @override
   Future<String> generateForAnnotatedElement(
-    Element element,
+    Element2 element,
     ConstantReader annotation,
     BuildStep buildStep,
   ) async {
     final isFlutter = await isFlutterPackage(buildStep);
     final buffer = StringBuffer();
 
-    if (element is! ClassElement) {
+    if (element is! ClassElement2) {
       throw InvalidGenerationSourceError(
-        'Generator cannot target `${element.name}`. '
+        'Generator cannot target `${element.name3}`. '
         'Annotation can only be applied to classes.',
         element: element,
       );
@@ -36,10 +36,10 @@ class ConflyRootGenerator extends GeneratorForAnnotation<ConflyRoot> {
     buffer.writeln(
       TypeDef(
         (builder) => builder
-          ..name = '${element.name}Loader'
+          ..name = '${element.name3}Loader'
           ..definition = FunctionType(
             (b) => b
-              ..returnType = refer('Future<${element.name}>')
+              ..returnType = refer('Future<${element.name3}>')
               ..optionalParameters.add(refer('RunMode? runMode')),
           ),
       ).accept(emitter).toString(),
@@ -63,35 +63,35 @@ class ConflyRootGenerator extends GeneratorForAnnotation<ConflyRoot> {
   }
 
   Class generateConflyRootClass(
-    ClassElement element,
+    ClassElement2 element,
     ConstantReader annotation,
     bool isFlutter,
   ) {
-    final generatedClassName = '_${element.name}';
-    final constructor = element.constructors.firstWhereOrNull(
-      (c) => c.name == '_',
+    final generatedClassName = '_${element.name3}';
+    final constructor = element.constructors2.firstWhereOrNull(
+      (c) => c.name3 == '_',
     );
 
     if (constructor == null) {
       throw InvalidGenerationSourceError(
-        'The class `${element.name}` must have a private unnamed constructor.',
+        'The class `${element.name3}` must have a private unnamed constructor.',
         element: element,
       );
     }
 
     final parameters = constructor.formalParameters
-        .whereType<FieldFormalParameterElement>();
+        .whereType<FieldFormalParameterElement2>();
     final (match: subConfigParameters, rest: configParameters) = parameters
         .partition(
-          (field) => TypeChecker.typeNamed(
+          (field) => const TypeChecker.typeNamed(
             ConflyConfig,
-          ).hasAnnotationOfExact(field.type.element!),
+          ).hasAnnotationOfExact(field.type.element3!),
         );
 
     return Class(
       (builder) => builder
         ..name = generatedClassName
-        ..extend = refer(element.name!)
+        ..extend = refer(element.name3!)
         ..fields.add(
           ConflyGeneratorHelper.generateEnvMapField(element, configParameters),
         )
@@ -116,7 +116,7 @@ class ConflyRootGenerator extends GeneratorForAnnotation<ConflyRoot> {
   }
 
   Constructor generateConflyWildcardConstructor(
-    Iterable<FieldFormalParameterElement> parameters,
+    Iterable<FieldFormalParameterElement2> parameters,
   ) {
     return Constructor(
       (b) => b
@@ -125,7 +125,7 @@ class ConflyRootGenerator extends GeneratorForAnnotation<ConflyRoot> {
           for (final parameter in parameters)
             Parameter(
               (builder) => builder
-                ..name = parameter.name!
+                ..name = parameter.name3!
                 ..named = true
                 ..toSuper = true
                 ..required = true,
@@ -137,8 +137,8 @@ class ConflyRootGenerator extends GeneratorForAnnotation<ConflyRoot> {
 
   Constructor generateConflyFactoryConstructor(
     String generatedClassName,
-    Iterable<FieldFormalParameterElement> configParameters,
-    Iterable<FieldFormalParameterElement> subConfigParameters,
+    Iterable<FieldFormalParameterElement2> configParameters,
+    Iterable<FieldFormalParameterElement2> subConfigParameters,
   ) {
     return Constructor(
       (b) => b
@@ -163,7 +163,7 @@ class ConflyRootGenerator extends GeneratorForAnnotation<ConflyRoot> {
         ${configParameters.map((p) => ConflyGeneratorHelper.generateExtractFieldValue(p).toString()).join('\n')}
         ${subConfigParameters.map((p) => ConflyGeneratorHelper.generateExtractSubConfigValue(p).toString()).join('\n')}
         return $generatedClassName._(${[
-          for (final field in [...configParameters, ...subConfigParameters]) "${field.name}: ${field.name}",
+          for (final field in [...configParameters, ...subConfigParameters]) "${field.name3}: ${field.name3}",
         ].join(', ')});
         '''),
     );
@@ -171,7 +171,7 @@ class ConflyRootGenerator extends GeneratorForAnnotation<ConflyRoot> {
 
   Method generateConflyLoadMethod(
     String generatedClassName,
-    ClassElement element,
+    ClassElement2 element,
     bool isFlutter,
   ) {
     final codeBuffer = StringBuffer();
@@ -194,7 +194,7 @@ class ConflyRootGenerator extends GeneratorForAnnotation<ConflyRoot> {
               ..name = 'runMode',
           ),
         ])
-        ..returns = refer('Future<${element.name!}>')
+        ..returns = refer('Future<${element.name3!}>')
         ..modifier = MethodModifier.async
         ..body = Code(codeBuffer.toString()),
     );

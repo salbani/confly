@@ -1,4 +1,4 @@
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:confly_annotation/confly_annotation.dart';
 import 'package:path/path.dart';
@@ -20,37 +20,37 @@ class ConflyGeneratorHelper {
   }
 
   static StringBuffer generateExtractFieldValue(
-    FieldFormalParameterElement parameter,
+    FieldFormalParameterElement2 parameter,
   ) {
     final codeBuffer = StringBuffer();
 
     final ignoreAnnotation = const TypeChecker.typeNamed(
       Ignore,
-    ).firstAnnotationOfExact(parameter.field!);
+    ).firstAnnotationOfExact(parameter.field2!);
     final passwordAnnotation = const TypeChecker.typeNamed(
       Password,
-    ).firstAnnotationOfExact(parameter.field!);
+    ).firstAnnotationOfExact(parameter.field2!);
     final convertAnnotation = const TypeChecker.typeNamed(
       ConvertValue,
-    ).firstAnnotationOfExact(parameter.field!);
+    ).firstAnnotationOfExact(parameter.field2!);
 
     if (ignoreAnnotation != null) return codeBuffer;
 
-    final fieldName = parameter.name!;
+    final fieldName = parameter.name3!;
     final fieldType = parameter.type;
     final convertFn = convertAnnotation
         ?.getField('convert')!
-        .toFunctionValue()!;
+        .toFunctionValue2()!;
 
     if (convertFn != null && convertFn.returnType != fieldType) {
       throw InvalidGenerationSourceError(
-        'The convert function `${convertFn.name}` for field `$fieldName` must return type `$fieldType`.',
+        'The convert function `${convertFn.name3}` for field `$fieldName` must return type `$fieldType`.',
         element: parameter,
       );
     }
 
     final convertFnName = convertFn != null
-        ? '${convertFn.enclosingElement?.name?.isNotEmpty == true ? '${convertFn.enclosingElement?.name}.' : ''}${convertFn.name}'
+        ? '${convertFn.enclosingElement2?.name3?.isNotEmpty == true ? '${convertFn.enclosingElement2?.name3}.' : ''}${convertFn.name3}'
         : 'ConflyConverters.convert<$fieldType>';
     codeBuffer.writeln(
       "final $fieldName = $convertFnName(_envMap['$fieldName'] ?? ${passwordAnnotation != null ? 'passwords' : 'config'}['$fieldName']);",
@@ -63,8 +63,8 @@ class ConflyGeneratorHelper {
   ) {
     final codeBuffer = StringBuffer();
 
-    final fieldName = field.name!;
-    final fieldType = field.type.element?.name;
+    final fieldName = field.name3!;
+    final fieldType = field.type.element3?.name3;
 
     codeBuffer.writeln('''
     final ${fieldName}Config = config['$fieldName'] as Map? ?? {};
@@ -75,8 +75,8 @@ class ConflyGeneratorHelper {
   }
 
   static Field generateEnvMapField(
-    ClassElement element,
-    Iterable<FieldFormalParameterElement> parameters,
+    ClassElement2 element,
+    Iterable<FieldFormalParameterElement2> parameters,
   ) {
     return Field(
       (b) => b
@@ -89,14 +89,14 @@ class ConflyGeneratorHelper {
             ...() {
               final environmentAnnotation = const TypeChecker.typeNamed(
                 Environment,
-              ).firstAnnotationOfExact(p.field!);
+              ).firstAnnotationOfExact(p.field2!);
 
               final envKey =
                   environmentAnnotation?.getField('name')?.toStringValue() ??
-                  '${element.name!.decapitalize()}${p.name!.capitalize()}'
+                  '${element.name3!.decapitalize()}${p.name3!.capitalize()}'
                       .asEnvKey;
               return {
-                p.name!: Code(
+                p.name3!: Code(
                   "bool.hasEnvironment('$envKey') "
                   "? String.fromEnvironment('$envKey') : null",
                 ),
@@ -107,8 +107,8 @@ class ConflyGeneratorHelper {
   }
 
   static Method generateToStringMethod(
-    ClassElement element,
-    Iterable<FieldFormalParameterElement> parameters,
+    ClassElement2 element,
+    Iterable<FieldFormalParameterElement2> parameters,
   ) {
     final codeBuffer = StringBuffer();
 
@@ -116,14 +116,14 @@ class ConflyGeneratorHelper {
     for (final p in parameters) {
       final isConfig = const TypeChecker.typeNamed(
         ConflyConfig,
-      ).hasAnnotationOfExact(p.type.element!);
+      ).hasAnnotationOfExact(p.type.element3!);
       if (isConfig) {
         codeBuffer.writeln(
-          "str += '${p.name!.separate()}\\n\${${p.name}.toString().split(\"\\n\").map((s) => \"\\t\$s\").join(\"\\n\")}\\n';",
+          "str += '${p.name3!.separate()}\\n\${${p.name3}.toString().split(\"\\n\").map((s) => \"\\t\$s\").join(\"\\n\")}\\n';",
         );
       } else {
         codeBuffer.writeln(
-          "str += '${p.name!.separate()}: \${${p.name}.toString()}\\n';",
+          "str += '${p.name3!.separate()}: \${${p.name3}.toString()}\\n';",
         );
       }
     }
