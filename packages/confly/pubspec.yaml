@@ -13,7 +13,7 @@ environment:
 dependencies:
   analyzer: ">=7.5.9 <9.0.0"
   build: ">=3.0.0 <5.0.0"
-  code_builder: "4.11.0"
+  code_builder: ">=4.11.0 <5.0.0"
   collection: ^1.19.1
   confly_annotation: 1.0.1
   path: ^1.9.1
