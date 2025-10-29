@@ -1,3 +1,7 @@
+## 1.0.5
+
+Fix flutter generation for non existent passwords file.
+
 ## 1.0.4
 
 Add lint ignore for unused_field to generated code that might mbe not used to
@@ -10,11 +14,11 @@ json_serializable and riverpod_generator.
 
 ## 1.0.2
 
-Fix generation issue in flutter projects
+Fix generation issue in flutter projects.
 
 ## 1.0.1
 
-Improve README
+Improve README.
 
 ## 1.0.0
 

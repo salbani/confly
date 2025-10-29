@@ -249,7 +249,16 @@ class ConflyRootGenerator extends GeneratorForAnnotation<ConflyRoot> {
     if (isFlutter) {
       codeBuffer.writeln('''
       final passwordsPath = ConflyHelpers.getPasswordsFilePath(basePath: $basePath);
-      final passwordsString = await rootBundle.loadString(passwordsPath);
+      String? passwordsString;
+      try {
+        passwordsString = await rootBundle.loadString(passwordsPath);
+      } catch (e) {
+        if (e is FlutterError && e.message.contains('Unable to load asset')) {
+          passwordsString = '';
+        } else {
+          rethrow;
+        }
+      }
       ''');
     } else {
       codeBuffer.writeln('''
