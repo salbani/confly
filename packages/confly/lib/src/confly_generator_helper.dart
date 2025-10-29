@@ -1,5 +1,6 @@
 import 'package:analyzer/dart/element/element2.dart';
 import 'package:code_builder/code_builder.dart';
+import 'package:built_collection/built_collection.dart';
 import 'package:confly_annotation/confly_annotation.dart';
 import 'package:path/path.dart';
 import 'package:source_gen/source_gen.dart';
@@ -83,6 +84,7 @@ class ConflyGeneratorHelper {
         ..modifier = FieldModifier.constant
         ..static = true
         ..name = '_envMap'
+        ..docs = ListBuilder(['// ignore: unused_field'])
         ..type = refer('Map<String, String?>')
         ..assignment = literalMap({
           for (final p in parameters)

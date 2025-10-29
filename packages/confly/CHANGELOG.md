@@ -1,3 +1,8 @@
+## 1.0.4
+
+Add lint ignore for unused_field to generated code that might mbe not used to
+clear warnings.
+
 ## 1.0.3
 
 downgrade source_gen to work with other popular generator packages like freezed,
