@@ -1,10 +1,7 @@
-## 1.0.5
-
-Fix flutter generation for non existent passwords file.
-
 ## 1.0.4
 
-Add lint ignore for unused_field to generated code that might mbe not used to
+- Fix flutter generation for non existent passwords file.
+- Add lint ignore for unused_field to generated code that might mbe not used to
 clear warnings.
 
 ## 1.0.3

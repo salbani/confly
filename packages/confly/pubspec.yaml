@@ -2,7 +2,7 @@ name: confly
 description: >
   Type-safe, hierarchical app configuration for Dart and Flutter,
   with multi-environment support.
-version: 1.0.5
+version: 1.0.4
 repository: https://github.com/salbani/confly
 issue_tracker: https://github.com/salbani/confly/issues
 
