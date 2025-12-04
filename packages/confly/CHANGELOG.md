@@ -1,3 +1,7 @@
+## 1.0.5
+
+- Fix Password annotation which did not use the name override.
+
 ## 1.0.4
 
 - Fix flutter generation for non existent passwords file.

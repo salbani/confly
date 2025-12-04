@@ -37,7 +37,9 @@ class ConflyGeneratorHelper {
 
     if (ignoreAnnotation != null) return codeBuffer;
 
-    final fieldName = parameter.name3!;
+    final fieldName =
+        passwordAnnotation?.getField('name')?.toStringValue() ??
+        parameter.name3!;
     final fieldType = parameter.type;
     final convertFn = convertAnnotation
         ?.getField('convert')!
