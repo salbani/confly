@@ -177,7 +177,11 @@ class ConflyRootGenerator extends GeneratorForAnnotation<ConflyRoot> {
     final codeBuffer = StringBuffer();
 
     codeBuffer.writeln('''
-    runMode ??= RunMode.fromEnvironment() ?? (${isFlutter ? 'kReleaseMode ? RunMode.production : ' : ''}RunMode.development);
+    runMode ??= (bool.hasEnvironment('RUN_MODE') || RunMode.environmentOverride != null
+      ? RunMode.fromString(RunMode.environmentOverride ?? String.fromEnvironment('RUN_MODE'))
+      : null) 
+        ?? 
+      (${isFlutter ? 'kReleaseMode ? RunMode.production : ' : ''}RunMode.development);
     final config = await _getConfig(runMode);
     final passwords = await _getPasswords(runMode);
     return $generatedClassName(config: config, passwords: passwords);

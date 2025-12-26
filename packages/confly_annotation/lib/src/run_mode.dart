@@ -7,11 +7,7 @@ enum RunMode {
   test;
 
   static String? _environmentOverride = null;
-
-  static RunMode? fromEnvironment() =>
-      bool.hasEnvironment('RUN_MODE') || _environmentOverride != null
-      ? fromString(_environmentOverride ?? String.fromEnvironment('RUN_MODE'))
-      : null;
+  static String? get environmentOverride => _environmentOverride;
 
   static FutureOr<void> runWithEnvironmentOverride(
     String? override,

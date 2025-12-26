@@ -1,3 +1,7 @@
+## 1.0.6
+
+- Fix environment override handling in generated code.
+
 ## 1.0.5
 
 - Fix Password annotation which did not use the name override.
