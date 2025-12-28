@@ -1,3 +1,7 @@
+## 1.0.3
+
+Fix wasm support.
+
 ## 1.0.2
 
 Fix environment override handling in generated code.

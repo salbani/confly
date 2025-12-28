@@ -42,36 +42,5 @@ void main() {
       expect(configWithProductionOverride.runMode, 'production');
       expect(configWithTestOverride.runMode, 'test');
     });
-
-    test('load correct config file from environment variable', () async {
-      await RunMode.runWithEnvironmentOverride('development', () async {
-        final config = await RunModeTestConfig.load();
-        expect(config.runMode, 'development');
-      });
-
-      await RunMode.runWithEnvironmentOverride('staging', () async {
-        final config = await RunModeTestConfig.load();
-        expect(config.runMode, 'staging');
-      });
-
-      await RunMode.runWithEnvironmentOverride('production', () async {
-        final config = await RunModeTestConfig.load();
-        expect(config.runMode, 'production');
-      });
-
-      await RunMode.runWithEnvironmentOverride('test', () async {
-        final config = await RunModeTestConfig.load();
-        expect(config.runMode, 'test');
-      });
-    });
-
-    test('throws exception for invalid run mode in environment', () async {
-      await RunMode.runWithEnvironmentOverride('invalid_value', () async {
-        expect(
-          () async => await RunModeTestConfig.load(),
-          throwsFormatException,
-        );
-      });
-    });
   });
 }

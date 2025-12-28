@@ -1,27 +1,10 @@
-import 'dart:async';
-
 enum RunMode {
   development,
   production,
   staging,
   test;
 
-  static String? _environmentOverride = null;
-  static String? get environmentOverride => _environmentOverride;
-
-  static FutureOr<void> runWithEnvironmentOverride(
-    String? override,
-    FutureOr<void> Function() body,
-  ) {
-    _environmentOverride = override;
-    try {
-      return body();
-    } finally {
-      _environmentOverride = null;
-    }
-  }
-
-  static RunMode fromString(String value) {
+  factory RunMode.fromString(String value) {
     switch (value) {
       case 'development':
         return development;

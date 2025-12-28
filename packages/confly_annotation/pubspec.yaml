@@ -2,7 +2,7 @@ name: confly_annotation
 description: >
   Annotations and some helpers for the confly packages.
   This package does nothing without confly too.
-version: 1.0.2
+version: 1.0.3
 repository: https://github.com/salbani/confly
 issue_tracker: https://github.com/salbani/confly/issues
 
